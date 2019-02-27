@@ -1,4 +1,4 @@
-# ThermoelectricGeneratorSimulation
+# ThermoelectricGeneratorDesignAndSimulation
 Graphical User Interface to design and simulate thermoelectric generators.
 
 TeGDS is a program developed in Matlab to easily simulate and analyse the performance of a thermoelectric generator as a function of temperature, by describing temperature dependent material properties, geometry and other interface materials. The program uses an iterative algorithm which evaluates the temperature losses in passive elements and corrects the effective temperatures on thermoelectric elements.
