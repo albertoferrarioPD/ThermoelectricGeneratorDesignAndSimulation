@@ -1,0 +1,135 @@
+---------- Overwiew ----------
+
+TeGDS is a program to easily simulate and analyse the performance of a thermoelectric generator as a function of temperature, by describing the temperature dependent material properties, the geometry and other interface materials. The program uses an iterative algorithm that, starting from external temperatures, evaluate the temperature losses in passive elements and corrects the effective temperatures on thermoelectric elements.
+
+This simulation tool allows to design a thermoelectric generator with new material data and to optimize the geometry by adjusting parameters. It can also be used to compare experimental data of new or commercial module in operating conditions or to study the effects of interface layers. 
+
+For details of the code, please refer to the original publication: 
+
+https://doi.org/10.1016/j.applthermaleng.2019.01.031  (https://www.sciencedirect.com/science/article/pii/S1359431118353298?dgcid=author)
+
+For comments, suggestions or bug report please contact: alberto.ferrario@cnr.it
+
+
+---------- Module Geometry and Temperatures -----------
+
+Insert the main module dimensions: number of couples, sizes, dimensions of electrodes and ceramics elements (if there are). Units are millimiter. Be careful, the program does not verify geometric constraints. 
+
+Set the maximum hot side temperature and cold side temperature in °C. Be aware to set a temperature range compatible with material data. 
+
+ 
+
+---------- Thermoelectric Properties ----------
+
+Polynomial coefficients
+
+In this section, Seebeck coefficient, thermal conductivity and electrical conductivity properties of n-type and p-type thermoelectric elements can be set. Typical values for n-type (Bi2Te3, Mg2Si, SiGe) and p-type (Bi2Te3, HMS, SiGe) materials are preloaded. Choose "User" from the drop-down list to insert your own coefficients.
+
+Coefficients of 4th degree polynomial are requested in the form: 
+
+  coeff1 x t?4 + coeff2 x t?³ + coeff3 x t?² + coeff4 x t?¹ + coeff5. 
+
+where t is the temperature in K. In case you need a low order polynomial simply set the first coefficients to zero (e.g., for 2nd order polynomial set [0 0 coeff3 coeff4 coeff5]).
+Units for coefficients are:
+
+  Seebeck coefficient: [10?6 V K?¹]
+  Thermal conductivity: [W m?¹ K?¹]
+  Electrical conductivity: [10² O?¹ m?¹]
+
+
+Data
+
+If you don't have the coefficients, it is possible to directly upload experimental material data. Push the "n-type" or "p-type" button (a new window will open), insert data in the proper table, choose the degree of the fitting polynomial (from 0 to 4) and export the coefficients. It is possible to save data (three .dat files will be automatically generated) and to upload previous saved files from Data folder (see Others - File Path). 
+
+Push the "Plot Material Properties" button to see the n-type, p-type and thermoelectric couple curves in the set temperature range. 
+
+
+---------- Passive & Temperature Losses ----------
+Passive
+
+Select the material of ceramic plates from the drop-down list or input your coefficients of thermal conductivity. Coefficients of 4th degree polynomial are requested in the form: 
+
+  coeff1 x t?4 + coeff2 x t?³ + coeff3 x t?² + coeff4 x t?¹ + coeff5. 
+
+where t is the temperature in K. In case you need a low order polynomial simply set the first coefficients to zero (e.g., for 2nd order polynomial set [0 0 coeff3 coeff4 coeff5]). For a temperature independent material set only coeff5.
+Units for coefficients are [W m?¹ K?¹].
+Insert any internal interface layer like solder or braze alloy, where known or applicable. Add any optional interface layer or thermal pad, which is used between the module and the heat source/sink, at cold side, hot side, or both. Up to six layers can be set; default values of each layer (thermal conductivity, , and height, h) can be change.
+Select the electrodes material or your own properties (Thermal conductivity, ?, and electrical resistivity, ?). If known, set the temperature coefficient of resistance,  a (?R/R, at 20 °C), otherwise set it zero. If known, set the electrical contact resistivity for n-type and p-type element, otherwise set them as = 10?6 (i.e. a good value of contact resistivity). 
+  
+
+Temperature Losses
+
+The overall conductance of passive material, of hot and cold side, is depicted in the top-right plot as a function of temperature. These values mainly affect the temperature losses (bottom-right) calculated by the iterative algorithm and in turn the actual temperatures on thermoelectric junctions (bottom-left) which determine the module performances.  
+It is to notice that lower the passive conductance of passive, with respect to TE conductance, the higher the temperature losses and the number of iteration requested by the algorithm. If the ratio of TE conductance to passive conductance is > 0.4 convergence failure can occur.
+
+
+---------- Load & Flux Performance ----------
+
+Performances
+
+Left plot shows the power and the output voltage (at maximum of power) as a function of hot side heat flux. Right plot shows the thermoelectric generator efficiency as a function of load to teg resistance ratio. Plotted results are at set cold side and maximum hot side temperatures. 
+
+The maximum value of efficiency and the corrisponded load to teg ratio is highlighted. This value is different from the efficiency calculated at the maximum power (i.e. with load to teg resistance ratio equal one)! Moreover, the maximum power at this point is estimated.   
+
+ 
+Load matching 
+
+By default, the software calculate TEG performances with load to teg resistance ratio equal one (i.e. maximum power). 
+It is possible to calculate everything at maximum efficiency. In this case the software evaluates the best load to resistance ratio value with a maximum research algorithm, the then simulate the overal performances with the determined load resistance value. (Notice: this option will be available in the next update!)
+It is also possible to run the software with a fixed load resistance selected by the User.
+    
+
+---------- Convergence & Output ----------
+
+Convergence
+
+The algorithm stops when or the maximum number of iterations or the tolerance has been reached. Tipically, 20 iterations are sufficient to reach the convergence with 10?³ % tolerance. For a faster simulation, consider reducing the tolerance.
+
+
+Export results
+
+It is possible to export simulation results ("Module Geometry and Temperatures" window) in a text or spreadsheet file (.txt, .csv, .xls). Insert file name without extension and select the extension with the dropdown menu. Select your data folder with "browse" button. Matlab file (.mat) will be saved in the current workspace as Table.
+
+
+---------- Warnings & Errors ----------	
+Warnings
+
+Warnings
+
+Temperatures higher(lower) than material data values! 
+Fitting polynomial and user inserted data values are defined in a specific temperature range. Outside that range, simulation is computed with no confidence as the behaviour of materials cannot be correctly extrapolated. However, simulation can be run by user in a slightly larger range, condidering temperature losses. 
+The warnings check separately the cold side temperature and the maximum hot side temperature.
+
+Convergence criterion not met! 
+Relative error between last two value of ?T or Q is higher than set tolerance. Even so, simulation can be complete and results correct. Do not consider this warning if relative error is lower than 10?² %. In other cases, increase the maximum number of iterations or decrease the tolerance. Convergence is evaluated at maximum hot side temperature.
+
+Polynomy is badly conditioned!
+Matlab warning for polynomial curve fitting: in problems with many points, increasing the degree of the polynomial fit using polyfit does not always result in a better fit. High-order polynomials can be oscillatory between the data points, leading to a poorer fit to the data. In those cases, you might use a low-order polynomial fit (which tends to be smoother between points) or a different technique, depending on the problem.
+
+
+Errors
+
+Algorithm did not converge! 
+If the the overal passive conductance is too low with respect to the TE couples conductance the algorithm may not converge, because progressive temperature losses and  became too high. This append when the TE counductance to passive conductance ratio (max value) is higher than about 0.35. Reasons can be: too many passive layers with poor thermal conductivity, a thick passive layer, thermoelectric elements with low thickness or too high thermal conductivity. Consider revise your geometry (e.g. higher TE elements or thinner ceramics) and material properties instead of modify number of iterations or tolerance!  
+
+Empty data table!
+One or more data table contains all zeros or is not set.
+
+Regression line contains negative or zero values!
+One or more values of the regression line (Seebeck coefficient, thermal conductivity or electrical conductivity) is  <= 0. Negative values lead to non convergence issue, whereas with zero values the algorithm will crash. Check your data, temperature range or polynomial degree.
+
+
+---------- Credits ----------
+
+Stefano Boldrini, Alberto Ferrario, Alvise Miozzo
+
+National Research Council of Italy - CNR
+
+Institute of Condensed Matter Chemistry and Technologies for Energy - ICMATE
+
+CNR - ICMATE
+Corso Stati Uniti, 4
+35127 - Padova IT
+Ph.+390 4982958774 
+Mob. +39 3401480309
+http://www.icmate.cnr.it
