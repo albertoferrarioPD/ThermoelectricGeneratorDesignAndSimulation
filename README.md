@@ -9,8 +9,8 @@ Details of the code are described in the following article:
 
 https://doi.org/10.1016/j.applthermaleng.2019.01.031  (https://www.sciencedirect.com/science/article/pii/S1359431118353298?dgcid=author)
 
-The GUI is build with App Designer in Matlab 2018a.
+The GUI is build with App Designer in Matlab 2023b. A previous release, v2.6, is compatibile for Matlab 2018 or later.
 
-If you don't have Matlab download the compiled version TeGDS.exe (you may need to install the Matlab Runtime: http://ssd.mathworks.com/supportfiles/downloads/R2018a/deployment_files/R2018a/installers/win64/MCR_R2018a_win64_installer.exe)
+If you don't have Matlab download the compiled version TeGDS.exe (you may need to install the Matlab Runtime R2023b: https://it.mathworks.com/products/compiler/matlab-runtime.html)
 
 Or download the installer TeGDS_web.exe
